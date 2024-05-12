@@ -28,3 +28,5 @@ step 3: `python train_rnet.py -e 10 -b 256 -o ../output/trainedModels/rnet.pth -
 step 1: `cd ..`  
 step 2: Follow ``inference_speed_analysis.ipynb``
 
+# Credit to [FaceDetector by BrightXiaoHan](https://github.com/BrightXiaoHan/FaceDetector)
+
