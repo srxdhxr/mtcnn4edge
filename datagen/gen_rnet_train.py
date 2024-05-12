@@ -32,7 +32,10 @@ def generate_training_data_for_rnet(pnet, meta_data, output_folder, crop_size=24
     detector = FaceDetector.__new__(FaceDetector)
     detector.pnet = pnet
     detector.device = pnet.device
-
+    detector.prof = False
+    detector.use_jit = False
+    detector.use3stage = True
+    
     # Prepare for output folder.
     rnet_output_folder = os.path.join(output_folder, suffix)
 

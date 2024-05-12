@@ -7,6 +7,8 @@
 
 import numpy as np
 import sys
+from numba import jit
+
 sys.path.append('..')
 def py_cpu_nms(dets, thresh):
     """Pure Python NMS baseline."""

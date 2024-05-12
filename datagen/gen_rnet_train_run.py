@@ -12,8 +12,7 @@ parser.add_argument('-m', type=str, dest="model_file", help="Pre-trained model f
 parser.add_argument('-o', dest="output_folder", default="../output/data_train", type=str, help="Folder to save training data for rnet.")
 parser.add_argument("-d", dest="detection_dataset",type=str, default="WiderFace",
                     help="Face Detection dataset name.")
-parser.add_argument("-l", type=str, dest="landmarks_dataset", default="CelebA",
-                    help="Landmark localization dataset name.")
+
 args = parser.parse_args()
 
 # load pre-trained pnet

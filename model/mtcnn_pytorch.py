@@ -125,6 +125,12 @@ class _Net(nn.Module):
         loss = torch.mean(loss)
 
         return loss * self.cls_factor
+        
+    def load_caffe_model(self, weights):
+        if self.is_train:
+            raise AssertionError("This method is avaliable only when 'is_train' is false.")
+        for n, p in self.named_parameters():
+            p.data = torch.FloatTensor(weights[n], device="cpu")
 
     def box_loss(self, gt_label, gt_offset, pred_offset):
         pred_offset = torch.squeeze(pred_offset)
@@ -240,5 +246,67 @@ class RNet(_Net):
 
     def to_script(self):
         data = torch.randn((100, 3, 24, 24), device=self.device)
+        script_module = torch.jit.trace(self, data)
+        return script_module
+
+
+class ONet(_Net):
+
+    def __init__(self, **kwargs):
+        # Hyper-parameter from original papaer
+        param = [1, 5, 50]
+        super(ONet, self).__init__(*param, **kwargs)
+
+    def _init_net(self):
+        # backend
+        
+        self.body = nn.Sequential(OrderedDict([
+            ('conv1', nn.Conv2d(3, 32, kernel_size=3, stride=1)),
+            ('prelu1', nn.PReLU(32)),
+            ('pool1', nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True)),
+
+            ('conv2', nn.Conv2d(32, 64, kernel_size=3, stride=1)),
+            ('prelu2', nn.PReLU(64)),
+            ('pool2', nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True)),
+
+            ('conv3', nn.Conv2d(64, 64, kernel_size=3, stride=1)),
+            ('prelu3', nn.PReLU(64)),
+            ('pool3', nn.MaxPool2d(kernel_size=2, stride=2, ceil_mode=True)),
+
+            ('conv4', nn.Conv2d(64, 128, kernel_size=2, stride=1)),
+            ('prelu4', nn.PReLU(128)),
+
+            ('flatten', Flatten()),
+            ('conv5', nn.Linear(1152, 256)),
+            ('drop5', nn.Dropout(0.25)),
+            ('prelu5', nn.PReLU(256)),
+        ]))
+
+        # detection
+        self.cls = nn.Sequential(OrderedDict([
+            ('conv6-1', nn.Linear(256, 2)),
+            ('softmax', nn.Softmax(1))
+        ]))
+        # bounding box regression
+        self.box_offset = nn.Sequential(OrderedDict([
+            ('conv6-2', nn.Linear(256, 4))
+        ])) 
+        
+    def forward(self, x):
+        # backend
+        x = self.body(x)
+
+        # detection
+        det = self.cls(x)
+
+        # box regression
+        box = self.box_offset(x)
+
+       
+
+        return det, box
+
+    def to_script(self):
+        data = torch.randn((100, 3, 48, 48), device=self.device)
         script_module = torch.jit.trace(self, data)
         return script_module

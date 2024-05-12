@@ -6,10 +6,10 @@ import torch
 import numpy as np
 import sys
 sys.path.append('../datagen')
-import gen_pnet_train as pnet
-import gen_rnet_train as rnet
+import datagen.gen_pnet_train as pnet
+import datagen.gen_rnet_train as rnet
 import utils.functional as func
-
+sys.path.append('../')
 from torch.utils.data import Dataset, DataLoader
 
 class ClsBoxData(object):
@@ -45,6 +45,7 @@ def get_training_data(output_folder, suffix):
     negative_meta_file = os.path.join(output_folder, suffix, 'negative_meta.csv')
 
     # load from disk to menmory
+    print(os.listdir())
     positive_meta = pd.read_csv(positive_meta_file)
     pos = [os.path.join(part_dest, i) for i in positive_meta.iloc[:, 0]]
     pos_reg = np.array(positive_meta.iloc[:, 1:])
@@ -158,6 +159,8 @@ class MtcnnDataset(object):
             # get landmarks data
             self.data = get_training_data(output_folder, suffix=suffix)
         elif net_stage == 'rnet':
+            self.data = get_training_data(output_folder, suffix=suffix)
+        elif net_stage == 'onet':
             self.data = get_training_data(output_folder, suffix=suffix)
         
         else:

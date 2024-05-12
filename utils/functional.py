@@ -2,7 +2,7 @@ import cv2
 import torch
 import numpy as np
 import sys
-
+from numba import jit
 
 
 def cpu_nms(dets, thresh):
@@ -36,6 +36,38 @@ def cpu_nms(dets, thresh):
     return keep
 
 
+@jit
+def cpu_nms_jit(dets, thresh):
+    """Pure Python NMS baseline."""
+    x1 = dets[:, 0]
+    y1 = dets[:, 1]
+    x2 = dets[:, 2]
+    y2 = dets[:, 3]
+    scores = dets[:, 4]
+
+    areas = (x2 - x1 + 1) * (y2 - y1 + 1)
+    order = scores.argsort()[::-1]
+
+    keep = []
+    while order.size > 0:
+        i = order[0]
+        keep.append(i)
+        xx1 = np.maximum(x1[i], x1[order[1:]])
+        yy1 = np.maximum(y1[i], y1[order[1:]])
+        xx2 = np.minimum(x2[i], x2[order[1:]])
+        yy2 = np.minimum(y2[i], y2[order[1:]])
+
+        w = np.maximum(0.0, xx2 - xx1 + 1)
+        h = np.maximum(0.0, yy2 - yy1 + 1)
+        inter = w * h
+        ovr = inter / (areas[i] + areas[order[1:]] - inter)
+
+        inds = np.where(ovr <= thresh)[0]
+        order = order[inds + 1]
+
+    return keep
+
+@jit
 def IoU(box, boxes):
     """Compute IoU between detect box and gt boxes
     Parameters:
@@ -66,7 +98,7 @@ def IoU(box, boxes):
     return ovr
 
 
-def nms(dets, scores, thresh, device="cpu"):
+def nms(dets, scores, thresh, use_jit = True):
     """
     greedily select boxes with high confidence
     keep boxes overlap <= thresh
@@ -75,13 +107,7 @@ def nms(dets, scores, thresh, device="cpu"):
     :param thresh: retain overlap <= thresh
     :return: indexes to keep
     """
-
-    
-
-        
-    if isinstance(device, str):
-        device = torch.device(device)
-    if device.type == 'cpu':
+    if use_jit:
 
         dets = np.concatenate([
             dets.astype(np.float32),
@@ -89,14 +115,14 @@ def nms(dets, scores, thresh, device="cpu"):
         ], 1)
 
 
-        ret = cpu_nms(dets,thresh)
+        ret = cpu_nms_jit(dets,thresh)
 
     else:
         dets = np.concatenate([
             dets.astype(np.float32),
             scores.astype(np.float32).reshape(-1, 1)
         ], 1)
-        ret = gpu_nms(dets, thresh)
+        ret = cpu_nms(dets, thresh)
 
     return ret
 
@@ -109,32 +135,3 @@ def imnormalize(img):
     img = (img - 127.5) * 0.0078125
     return img
 
-
-def iou_torch(box, boxes):
-    """Compute IoU between detect box and gt boxes
-    
-    Args:
-        box (torch.IntTensor): shape (4, )
-        boxes (torch.IntTensor): shape (n, 4)
-    
-    Returns:
-        torch.FloatTensor: [description]
-    """
-
-    box_area = (box[2] - box[0] + 1) * (box[3] - box[1] + 1)
-    area = (boxes[:, 2] - boxes[:, 0] + 1) * (boxes[:, 3] - boxes[:, 1] + 1)
-    xx1 = torch.max(box[0], boxes[:, 0])
-    yy1 = torch.max(box[1], boxes[:, 1])
-    xx2 = torch.min(box[2], boxes[:, 2])
-    yy2 = torch.min(box[3], boxes[:, 3])
-
-    # compute the width and height of the bounding box
-    w = xx2 - xx1 + 1
-    h = yy2 - yy1 + 1
-    w = torch.max(torch.zeros_like(w), w)
-    h = torch.max(torch.zeros_like(h), h)
-
-    inter = w * h
-    ovr = inter.float() / (box_area + area - inter).float()
-
-    return ovr

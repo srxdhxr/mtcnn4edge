@@ -5,14 +5,15 @@ import progressbar
 import sys
 sys.path.append('../')
 import time
-from model.mtcnn_pytorch import PNet, RNet
+from model.mtcnn_pytorch import PNet, RNet,ONet
 from datagen.data import MtcnnDataset
 from torch.utils.tensorboard import SummaryWriter
 
 class Trainer(object):
 
-    def __init__(self, net_stage, device='cpu', log_dir='./runs', output_folder='./runs', resume=False,n_workers = 1,prof = False):
+    def __init__(self, net_stage, device='cpu', log_dir='./runs', output_folder='./runs', resume=False,n_workers = 1,prof = False,verbose = True):
         
+        self.verbose = verbose
         self.net_stage = net_stage
         self.device = device
         self.output_folder = output_folder
@@ -22,7 +23,8 @@ class Trainer(object):
         
         elif net_stage == 'rnet':
             self.net = RNet(is_train=True, device=self.device)
-        
+        elif net_stage == 'onet':
+            self.net = ONet(is_train=True, device=self.device)
         
         self.optimizer = torch.optim.Adam(self.net.parameters())
         
@@ -35,43 +37,49 @@ class Trainer(object):
         
         self.writer = SummaryWriter(log_dir=log_dir, purge_step=self.epoch_num)
         
-    def train(self, num_epoch, batch_size, data_folder):
+    def train(self, num_epoch, batch_size, data_folder,only_eval = False):
         dataset = MtcnnDataset(data_folder, self.net_stage, batch_size, suffix=self.net_stage,num_workers =self.n_workers)
         eval_dataset = MtcnnDataset(data_folder, self.net_stage, batch_size, suffix=self.net_stage+'_eval',num_workers =self.n_workers)
-
+        out = []
         for i in range(num_epoch - self.epoch_num + 1):
-            print("Training epoch %d ......" % self.epoch_num)
-            data_iter, total_batch = dataset.get_iter()
-            self._train_epoch(data_iter, total_batch)
-            print("Training epoch %d done." % self.epoch_num)
+            if only_eval == False:
+                print("Training epoch %d ......" % self.epoch_num)
+                data_iter, total_batch = dataset.get_iter()
+                self._train_epoch(data_iter, total_batch)
+                print("Training epoch %d done." % self.epoch_num)
 
             if(self.prof == 0):
-                print("Evaluate on training data...")
-                data_iter, total_batch = dataset.get_iter()
-                train_result = self.eval(data_iter, total_batch)
-                self.writer.add_scalars(f"accuracy/{self.net_stage}", {"train":train_result['accuracy']}, global_step=self.epoch_num)
+                if(only_eval == False):
+                    print("Evaluate on training data...")
+                    data_iter, total_batch = dataset.get_iter()
+                    train_result = self.eval(data_iter, total_batch)
+                    self.writer.add_scalars(f"accuracy/{self.net_stage}", {"train":train_result['accuracy']}, global_step=self.epoch_num)
 
 
                 print("Evaluate on eval data...")
                 data_iter, total_batch = eval_dataset.get_iter()
                 eval_result = self.eval(data_iter, total_batch)
 
-                self.writer.add_scalars(f"accuracy/{self.net_stage}", {"validation":eval_result['accuracy']}, global_step=self.epoch_num)
+                if(only_eval == False):
+                    self.writer.add_scalars(f"accuracy/{self.net_stage}", {"validation":eval_result['accuracy']}, global_step=self.epoch_num)
+                else:
+                    
+                    return eval_result
 
 
+        self.save_state_dict()
 
-            self.save_state_dict()
-
-            self.epoch_num += 1
+        self.epoch_num += 1
 
     def _train_epoch(self, data_iter, total_batch):
-        
-        bar = progressbar.ProgressBar(max_value=total_batch)
+        if self.verbose:
+            bar = progressbar.ProgressBar(max_value=total_batch)
         total_dl_time = 0
         total_tr_time = 0
 
         for i, batch in enumerate(data_iter):
-            bar.update(i)
+            if self.verbose:
+                bar.update(i)
 
             loss,dl_time,tr_time = self._train_batch(batch)
 
@@ -82,7 +90,8 @@ class Trainer(object):
             self.writer.add_scalar(f'train/{self.net_stage}/batch_loss', loss, global_step=self.globle_step)
             self.globle_step += 1
 
-        bar.update(total_batch)    
+        if self.verbose:
+            bar.update(total_batch)    
         self.writer.add_scalars(f'Dataloader/{self.net_stage}',{f"worker_{self.n_workers}":total_dl_time}, global_step=self.epoch_num)
         self.writer.add_scalar(f'train/{self.net_stage}/Average Train Time (Epoch)', total_tr_time, global_step=self.epoch_num)
 

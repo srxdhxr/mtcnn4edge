@@ -2,7 +2,7 @@ import math
 import cv2
 import torch
 import time
-
+from functools import wraps
 import utils.functional as func
 
 def _no_grad(func):
@@ -14,16 +14,40 @@ def _no_grad(func):
 
     return wrapper
 
+def timit(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        start_time = time.time()
+        result = func(self, *args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        if hasattr(self, 'profDict'):
+            if func.__name__ not in self.profDict:
+                empty_list = []
+                empty_list.append(execution_time)  # Append the execution time to the empty list
+                self.profDict[func.__name__] = empty_list  # Assign the list to the profDict
+            else:
+                self.profDict[func.__name__].append(execution_time)  # Append the execution time to the existing list
+        return result
+    return wrapper
+
+
 
 class FaceDetector(object):
 
-    def __init__(self, pnet, rnet, device='cpu'):
+    def __init__(self, pnet, rnet,onet, device='cpu',prof = False,use3stage = False,use_jit = True):
         
         self.device = torch.device(device)
         
         self.pnet = pnet.to(self.device)
         self.rnet = rnet.to(self.device)
-    
+        self.onet = onet.to(self.device)
+
+        self.prof = prof
+        self.use_jit = use_jit
+        if self.prof == True:
+            self.profDict = {}
+        self.use3stage = use3stage
     def to_script(self):
         if isinstance(self.pnet, torch.nn.Module):
             self.pnet.to_script()
@@ -32,9 +56,9 @@ class FaceDetector(object):
             self.rnet.to_script()
             
         return self
-
+    @timit
     def _preprocess(self, img):
-
+        
         if isinstance(img, str):
             img = cv2.imread(img)
 
@@ -44,18 +68,29 @@ class FaceDetector(object):
         img = torch.FloatTensor(img).to(self.device)
         img = func.imnormalize(img)
         img = img.unsqueeze(0)
-
+        
         return img
-
-    def detect(self, img, threshold=[0.8, 0.1, 0.85], factor=0.7, minsize=12, nms_threshold=[0.3, 0.3, 0.1]):
-
+    @timit
+    def detect(self, img, threshold=[0.6 ,0.7, 0.85], factor=0.7, minsize=12, nms_threshold=[0.7, 0.7, 0.3]):
+        
         img = self._preprocess(img)
+        if not self.use3stage:
+            threshold = [0.9,0.95]
+            nms_threshold=[0.4, 0.3]
+            
         stage_one_boxes = self.stage_one(img, threshold[0], factor, minsize, nms_threshold[0])
         stage_two_boxes = self.stage_two(img, stage_one_boxes, threshold[1], nms_threshold[1])
-        stage_three_boxes = self.stage_three(img, stage_two_boxes, threshold[2], nms_threshold[2])
-        return stage_three_boxes
-
+        if self.use3stage:
+            stage_three_boxes = self.stage_three(img, stage_two_boxes, threshold[2], nms_threshold[2])
+            return stage_three_boxes
+    
+        
+        return stage_two_boxes
+    
+    @timit
     def _generate_bboxes(self, probs, offsets, scale, threshold):
+
+    
         """Generate bounding boxes at places
         where there is probably a face.
 
@@ -109,9 +144,12 @@ class FaceDetector(object):
         ], 0).transpose(0, 1).float()
 
         bounding_boxes = torch.round(bounding_boxes / scale).int()
-        return bounding_boxes, score, offsets
 
+        
+        return bounding_boxes, score, offsets
+    @timit
     def _calibrate_box(self, bboxes, offsets):
+        
         """Transform bounding boxes to be more like true bounding boxes.
         'offsets' is one of the outputs of the nets.
 
@@ -141,9 +179,12 @@ class FaceDetector(object):
 
         translation = torch.cat([w, h, w, h], 1).float() * offsets
         bboxes += torch.round(translation).int()
-        return bboxes
 
+        
+        return bboxes
+    @timit
     def _convert_to_square(self, bboxes):
+        
         """Convert bounding boxes to a square form.
 
         Arguments:
@@ -165,42 +206,22 @@ class FaceDetector(object):
         square_bboxes[:, 3] = square_bboxes[:, 1] + max_side - 1.0
 
         square_bboxes = torch.ceil(square_bboxes + 1).int()
+
+        
         return square_bboxes
 
     def _refine_boxes(self, bboxes, w, h):
-
+        
         bboxes = torch.max(torch.zeros_like(bboxes, device=self.device), bboxes)
         sizes = torch.IntTensor([[h, w, h, w]] * bboxes.shape[0]).to(self.device)
         bboxes = torch.min(bboxes, sizes)
+        
         return bboxes
 
-    def _calibrate_landmarks(self, bboxes, landmarks, align=False):
-        """Compute the face landmarks coordinates
-        
-        Args:
-            bboxes (torch.IntTensor): bounding boxes of shape [n, 4]
-            landmarks (torch.floatTensor): landmarks regression output of shape [n, 10]
-            align (bool, optional): Defaults to False. If "False", return the coordinates related to the origin image. Else, return the coordinates related to alinged faces.
-        
-        Returns:
-            torch.IntTensor: face landmarks coordinates of shape [n, 10]
-        """
-
-        x1, y1, x2, y2 = [bboxes[:, i] for i in range(4)]
-        w = x2 - x1 + 1.0
-        h = y2 - y1 + 1.0
-        w = torch.unsqueeze(w, 1)
-        h = torch.unsqueeze(h, 1)
-
-        translation = torch.cat([w]*5 + [h]* 5, 1).float() * landmarks
-        if align:
-            landmarks = torch.ceil(translation).int()
-        else:
-            landmarks = torch.stack([bboxes[:, 0]] * 5 + [bboxes[:, 1]] * 5, 1) + torch.round(translation).int()
-        return landmarks
-
     @_no_grad
+    @timit
     def stage_one(self, img, threshold, factor, minsize, nms_threshold):
+       
         width = img.shape[2]
         height = img.shape[3]
 
@@ -226,7 +247,13 @@ class FaceDetector(object):
         for w, h, f in scales:
             resize_img = torch.nn.functional.interpolate(
                 img, size=(w, h), mode='bilinear')
+
+            if self.prof:
+                st = time.time()
             p_distribution, box_regs = self.pnet(resize_img)
+
+            if self.prof:
+                self.profDict['pnet'] = time.time()-st
 
             candidate, scores, offsets = self._generate_bboxes(
                 p_distribution, box_regs, f, threshold)
@@ -238,14 +265,23 @@ class FaceDetector(object):
         # nms
         if candidate_boxes.shape[0] != 0:
             candidate_boxes = self._calibrate_box(candidate_boxes, candidate_offsets)
-            keep = func.nms(candidate_boxes.cpu().numpy(), candidate_scores.cpu().numpy(), nms_threshold, device=self.device)
+            if(self.prof):
+                st = time.time()
+            keep = func.nms(candidate_boxes.cpu().numpy(), candidate_scores.cpu().numpy(), nms_threshold, use_jit = self.use_jit)
+
+            if(self.prof):  
+                self.profDict['nms_stage_one'] = time.time()-st
+
+            
             return candidate_boxes[keep]
         else:
+            
             return candidate_boxes
 
     @_no_grad
+    @timit
     def stage_two(self, img, boxes, threshold, nms_threshold):
-        print("Number of Candidate faces found from PNET",boxes.shape)
+        
         # no candidate face found.
         if boxes.shape[0] == 0:
             return boxes
@@ -269,7 +305,12 @@ class FaceDetector(object):
         candidate_faces = torch.cat(candidate_faces, 0)
 
         # rnet forward pass
+        if self.prof:
+            st = time.time()
         p_distribution, box_regs = self.rnet(candidate_faces)
+        if self.prof:
+            self.profDict['rnet'] = time.time()-st
+
 
         # filter negative boxes
         scores = p_distribution[:, 1]
@@ -281,12 +322,22 @@ class FaceDetector(object):
         if boxes.shape[0] > 0:
             boxes = self._calibrate_box(boxes, box_regs)
             # nms
-            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold, device=self.device)
+            if(self.prof):
+                st = time.time()
+            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(),nms_threshold, use_jit = self.use_jit)
+
+            if(self.prof):  
+                self.profDict['nms_stage_two'] = time.time()-st
             boxes = boxes[keep]
+
+        if not self.use3stage:
+            boxes = self._refine_boxes(boxes, width, height)
         return boxes
 
     @_no_grad
+    @timit
     def stage_three(self, img, boxes, threshold, nms_threshold):
+        
         # no candidate face found.
         if boxes.shape[0] == 0:
             return boxes, torch.empty(0, device=self.device, dtype=torch.int32)
@@ -303,12 +354,12 @@ class FaceDetector(object):
         for box in boxes:
             im = img[:, :, box[1]: box[3], box[0]: box[2]]
             im = torch.nn.functional.interpolate(
-                im, size=(24, 24), mode='bilinear')
+                im, size=(48, 48), mode='bilinear')
             candidate_faces.append(im)
         
         candidate_faces = torch.cat(candidate_faces, 0)
 
-        p_distribution, box_regs = self.rnet(candidate_faces)
+        p_distribution, box_regs = self.onet(candidate_faces)
 
         # filter negative boxes
         scores = p_distribution[:, 1]
@@ -324,7 +375,15 @@ class FaceDetector(object):
             boxes = self._refine_boxes(boxes, width, height)
             
             # nms
-            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold, device=self.device)
+            if(self.prof):
+                st = time.time()
+            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold, use_jit = self.use_jit)
+
+            if(self.prof):  
+                self.profDict['nms_stage_three'] = time.time()-st
             boxes = boxes[keep]
-            
+        
         return boxes
+
+    def get_prof(self):
+        return self.profDict
