@@ -44,7 +44,7 @@ class FaceDetector(object):
         self.rnet = rnet.to(self.device)
         self.onet = onet.to(self.device)
         self.use32 = use32
-
+        self.prof = False
         if prof:
             self.prof = prof
             self.profDict = {}
@@ -56,7 +56,7 @@ class FaceDetector(object):
 
         self.use3stage = use3stage
 
-        if self.use3stage:
+        if self.use3stage and self.prof:
             self.profDict['nms_stage_three'] = []
 
     def to_script(self):
@@ -88,8 +88,8 @@ class FaceDetector(object):
         
         img = self._preprocess(img)
         if not self.use3stage:
-            threshold = [0.95,0.95]
-            nms_threshold=[0.3, 0.1]
+            threshold = [0.90,0.90]
+            nms_threshold=[0.4, 0.2]
             
         stage_one_boxes = self.stage_one(img, threshold[0], factor, minsize, nms_threshold[0])
         stage_two_boxes = self.stage_two(img, stage_one_boxes, threshold[1], nms_threshold[1])
@@ -315,7 +315,7 @@ class FaceDetector(object):
         height = img.shape[3]
 
         boxes = self._convert_to_square(boxes)
-        boxes = self._refine_boxes(boxes, width, height)
+        #boxes = self._refine_boxes(boxes, width, height)
 
         # get candidate faces
         candidate_faces = list()
@@ -360,7 +360,7 @@ class FaceDetector(object):
 
         if not self.use3stage:
             boxes = self._convert_to_square(boxes)
-            boxes = self._refine_boxes(boxes, width, height)
+            #boxes = self._refine_boxes(boxes, width, height)
         return boxes
     
     

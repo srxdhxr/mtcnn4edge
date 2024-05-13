@@ -139,43 +139,43 @@ def imnormalize(img):
 
 
 
-# Define the Box structure
-class Box(ctypes.Structure):
-    _fields_ = [("x1", ctypes.c_float),
-                ("y1", ctypes.c_float),
-                ("x2", ctypes.c_float),
-                ("y2", ctypes.c_float)]
+# # Define the Box structure
+# class Box(ctypes.Structure):
+#     _fields_ = [("x1", ctypes.c_float),
+#                 ("y1", ctypes.c_float),
+#                 ("x2", ctypes.c_float),
+#                 ("y2", ctypes.c_float)]
 
-# Load the shared library
-lib = ctypes.CDLL("utils/nms.so")
+# # Load the shared library
+# lib = ctypes.CDLL("C:/Users/sridh/OneDrive/Desktop/mtcnn4edge/utils/nms.so")
 
-# Define the argument and return types for the nms function
-lib.nms.argtypes = [ctypes.POINTER(Box), ctypes.POINTER(ctypes.c_float), ctypes.c_int, ctypes.c_float, ctypes.POINTER(ctypes.c_int)]
-lib.nms.restype = ctypes.POINTER(ctypes.c_int)
+# # Define the argument and return types for the nms function
+# lib.nms.argtypes = [ctypes.POINTER(Box), ctypes.POINTER(ctypes.c_float), ctypes.c_int, ctypes.c_float, ctypes.POINTER(ctypes.c_int)]
+# lib.nms.restype = ctypes.POINTER(ctypes.c_int)
 
-def nms_c(dets, scores, iou_threshold):
-    # Convert bounding boxes to Box structure
-    boxes = (Box * len(dets))()
-    for i, (x1, y1, x2, y2) in enumerate(dets):
-        boxes[i].x1 = x1
-        boxes[i].y1 = y1
-        boxes[i].x2 = x2
-        boxes[i].y2 = y2
+# def nms_c(dets, scores, iou_threshold):
+#     # Convert bounding boxes to Box structure
+#     boxes = (Box * len(dets))()
+#     for i, (x1, y1, x2, y2) in enumerate(dets):
+#         boxes[i].x1 = x1
+#         boxes[i].y1 = y1
+#         boxes[i].x2 = x2
+#         boxes[i].y2 = y2
     
-    # Convert scores to ctypes array
-    scores = np.array(scores, dtype=np.float32)
-    scores_ptr = ctypes.cast(scores.ctypes.data, ctypes.POINTER(ctypes.c_float))
+#     # Convert scores to ctypes array
+#     scores = np.array(scores, dtype=np.float32)
+#     scores_ptr = ctypes.cast(scores.ctypes.data, ctypes.POINTER(ctypes.c_float))
     
-    # Call the nms function
-    selected_count = ctypes.c_int()
-    selected_indices_ptr = lib.nms(boxes, scores_ptr, len(dets), iou_threshold, ctypes.byref(selected_count))
+#     # Call the nms function
+#     selected_count = ctypes.c_int()
+#     selected_indices_ptr = lib.nms(boxes, scores_ptr, len(dets), iou_threshold, ctypes.byref(selected_count))
 
-    # Convert selected indices to a Python list
-    selected_indices = [selected_indices_ptr[i] for i in range(selected_count.value)]
+#     # Convert selected indices to a Python list
+#     selected_indices = [selected_indices_ptr[i] for i in range(selected_count.value)]
 
-    # Free allocated memory
-    libc = ctypes.CDLL("libc.so.6")
-    libc.free(selected_indices_ptr)
+#     # Free allocated memory
+#     libc = ctypes.CDLL("libc.so.6")
+#     libc.free(selected_indices_ptr)
 
-    # Return selected detections
-    return [dets[i] for i in selected_indices]
+#     # Return selected detections
+#     return [dets[i] for i in selected_indices]
