@@ -21,8 +21,8 @@ step 3: `python gen_rnet_train_run.py -d <location to WIDERFACE directory> -m ..
 
 ### Train PNET and RNET
 step 1: `cd ../trainnets`  
-step 2: `python train_pnet.py -e 10 -b 256 -o ../output/trainedModels/pnet.pth -dv cuda:0 -r False` to train PNET  
-step 3: `python train_rnet.py -e 10 -b 256 -o ../output/trainedModels/rnet.pth -dv cuda:0 -r False` to train RNET  
+step 2: `python train_pnet.py -e 10 -b 256 -o ../output/trainedModels/pnet.pth -dv cuda:0 ` to train PNET  
+step 3: `python train_rnet.py -e 10 -b 256 -o ../output/trainedModels/rnet.pth -dv cuda:0 ` to train RNET  
 
 ### Inference
 step 1: `cd ..`  
