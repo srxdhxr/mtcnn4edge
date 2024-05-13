@@ -16,8 +16,8 @@ Note: Download the WIDERFACE dataset. The dataset should contain these folders
 
 ### Generate Training Data for PNET and RNET
 step 1: `cd datagen`  
-step 2: `python gen_pnet_train_run.py` to generate training data for PNET training  
-step 3: `python gen_rnet_train.py -m ../output/trainedModels/pnet.pth` to generate data for RNET training  
+step 2: `python gen_pnet_train_run.py -d <location to WIDERFACE directory>` to generate training data for PNET training  
+step 3: `python gen_rnet_train_run.py -d <location to WIDERFACE directory> -m ../output/trainedModels/pnet.pth` to generate data for RNET training  
 
 ### Train PNET and RNET
 step 1: `cd ../trainnets`  
@@ -27,6 +27,10 @@ step 3: `python train_rnet.py -e 10 -b 256 -o ../output/trainedModels/rnet.pth -
 ### Inference
 step 1: `cd ..`  
 step 2: Follow ``inference_speed_analysis.ipynb``
+
+### In development  
+step 1: `cd ..`  
+step 2: `detectCam.py`
 
 #### Credit to [FaceDetector by BrightXiaoHan](https://github.com/BrightXiaoHan/FaceDetector)
 
