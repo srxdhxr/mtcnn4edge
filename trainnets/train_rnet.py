@@ -15,6 +15,6 @@ parser.add_argument('-wandb', dest = "wandb", default = 0,type = int, help = 'En
 
 args = parser.parse_args()
 
-trainer = Trainer('rnet2', device='cuda:0', log_dir='../runs/rnet/',n_workers = args.workers,prof = args.prof,usewandb = args.wandb)
+trainer = Trainer('rnet', device='cuda:0', log_dir='../runs/rnet/',n_workers = args.workers,prof = args.prof,usewandb = args.wandb)
 trainer.train(args.epoch, args.batch_size, args.data_train)
 trainer.export_model(args.output_filename)
