@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_pnet.py", line 17, in <module>
+    trainer.train(args.epoch, args.batch_size, args.data_train)
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_net.py", line 50, in train
+    self.run.define_metrict()
+    ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Run' object has no attribute 'define_metrict'

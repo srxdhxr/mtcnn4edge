@@ -14,6 +14,7 @@ def _no_grad(func):
 
     return wrapper
 
+
 def timit(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
@@ -21,13 +22,14 @@ def timit(func):
         result = func(self, *args, **kwargs)
         end_time = time.time()
         execution_time = end_time - start_time
-        if hasattr(self, 'profDict'):
-            if func.__name__ not in self.profDict:
-                empty_list = []
-                empty_list.append(execution_time)  # Append the execution time to the empty list
-                self.profDict[func.__name__] = empty_list  # Assign the list to the profDict
-            else:
-                self.profDict[func.__name__].append(execution_time)  # Append the execution time to the existing list
+
+        # Only execute the profiling logic if self.prof is True
+        if self.prof:  
+            if hasattr(self, 'profDict'):
+                if func.__name__ not in self.profDict:
+                    self.profDict[func.__name__] = [execution_time]  # Assign the list to the profDict
+                else:
+                    self.profDict[func.__name__].append(execution_time)  # Append the execution time to the existing list
         return result
     return wrapper
 
@@ -35,19 +37,28 @@ def timit(func):
 
 class FaceDetector(object):
 
-    def __init__(self, pnet, rnet,onet, device='cpu',prof = False,use3stage = False,use_jit = True):
-        
+    def __init__(self, pnet, rnet,onet, device='cpu',prof = False,use3stage = False,use_jit = True,use_c = False,use32 = False):
         self.device = torch.device(device)
-        
+        self.use_c = use_c
         self.pnet = pnet.to(self.device)
         self.rnet = rnet.to(self.device)
         self.onet = onet.to(self.device)
+        self.use32 = use32
 
-        self.prof = prof
-        self.use_jit = use_jit
-        if self.prof == True:
+        if prof:
+            self.prof = prof
             self.profDict = {}
+            self.profDict['nms_stage_one'] = []
+            self.profDict['nms_stage_two'] = []
+            
+       
+        self.use_jit = use_jit
+
         self.use3stage = use3stage
+
+        if self.use3stage:
+            self.profDict['nms_stage_three'] = []
+
     def to_script(self):
         if isinstance(self.pnet, torch.nn.Module):
             self.pnet.to_script()
@@ -56,6 +67,7 @@ class FaceDetector(object):
             self.rnet.to_script()
             
         return self
+
     @timit
     def _preprocess(self, img):
         
@@ -70,16 +82,18 @@ class FaceDetector(object):
         img = img.unsqueeze(0)
         
         return img
+
     @timit
-    def detect(self, img, threshold=[0.6 ,0.7, 0.85], factor=0.7, minsize=12, nms_threshold=[0.7, 0.7, 0.3]):
+    def detect(self, img, threshold=[0.95 ,0.75, 0.85], factor=0.7, minsize=12, nms_threshold=[0.7, 0.7, 0.6]):
         
         img = self._preprocess(img)
         if not self.use3stage:
-            threshold = [0.9,0.95]
-            nms_threshold=[0.4, 0.3]
+            threshold = [0.95,0.95]
+            nms_threshold=[0.3, 0.1]
             
         stage_one_boxes = self.stage_one(img, threshold[0], factor, minsize, nms_threshold[0])
         stage_two_boxes = self.stage_two(img, stage_one_boxes, threshold[1], nms_threshold[1])
+       
         if self.use3stage:
             stage_three_boxes = self.stage_three(img, stage_two_boxes, threshold[2], nms_threshold[2])
             return stage_three_boxes
@@ -147,6 +161,7 @@ class FaceDetector(object):
 
         
         return bounding_boxes, score, offsets
+
     @timit
     def _calibrate_box(self, bboxes, offsets):
         
@@ -182,6 +197,7 @@ class FaceDetector(object):
 
         
         return bboxes
+
     @timit
     def _convert_to_square(self, bboxes):
         
@@ -210,6 +226,7 @@ class FaceDetector(object):
         
         return square_bboxes
 
+    @timit
     def _refine_boxes(self, bboxes, w, h):
         
         bboxes = torch.max(torch.zeros_like(bboxes, device=self.device), bboxes)
@@ -248,12 +265,9 @@ class FaceDetector(object):
             resize_img = torch.nn.functional.interpolate(
                 img, size=(w, h), mode='bilinear')
 
-            if self.prof:
-                st = time.time()
+            
             p_distribution, box_regs = self.pnet(resize_img)
 
-            if self.prof:
-                self.profDict['pnet'] = time.time()-st
 
             candidate, scores, offsets = self._generate_bboxes(
                 p_distribution, box_regs, f, threshold)
@@ -263,25 +277,36 @@ class FaceDetector(object):
             candidate_offsets = torch.cat([candidate_offsets, offsets])
 
         # nms
+
+        
         if candidate_boxes.shape[0] != 0:
             candidate_boxes = self._calibrate_box(candidate_boxes, candidate_offsets)
-            if(self.prof):
+            
+            if self.prof:
+                
                 st = time.time()
+            if self.use_c:
+                keep = func.nms_c(candidate_boxes.cpu().numpy(), candidate_scores.cpu().numpy(), nms_threshold)
+    
             keep = func.nms(candidate_boxes.cpu().numpy(), candidate_scores.cpu().numpy(), nms_threshold, use_jit = self.use_jit)
 
-            if(self.prof):  
-                self.profDict['nms_stage_one'] = time.time()-st
+            if self.prof:
+                self.profDict['nms_stage_one'].append(time.time()-st)
 
             
             return candidate_boxes[keep]
         else:
             
             return candidate_boxes
-
+    
+    
     @_no_grad
     @timit
     def stage_two(self, img, boxes, threshold, nms_threshold):
-        
+        if self.use32:
+            in_size = 32
+        else:
+            in_size = 24
         # no candidate face found.
         if boxes.shape[0] == 0:
             return boxes
@@ -299,17 +324,15 @@ class FaceDetector(object):
         for box in boxes:
             im = img[:, :, box[1]: box[3], box[0]: box[2]]
             im = torch.nn.functional.interpolate(
-                im, size=(24, 24), mode='bilinear')
+                im, size=(in_size, in_size), mode='bilinear')
             candidate_faces.append(im)
         
         candidate_faces = torch.cat(candidate_faces, 0)
 
         # rnet forward pass
-        if self.prof:
-            st = time.time()
+    
         p_distribution, box_regs = self.rnet(candidate_faces)
-        if self.prof:
-            self.profDict['rnet'] = time.time()-st
+        
 
 
         # filter negative boxes
@@ -322,18 +345,25 @@ class FaceDetector(object):
         if boxes.shape[0] > 0:
             boxes = self._calibrate_box(boxes, box_regs)
             # nms
-            if(self.prof):
-                st = time.time()
-            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(),nms_threshold, use_jit = self.use_jit)
+           
+            st = time.time()
+            if self.use_c:
+                keep = func.nms_c(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold)
 
-            if(self.prof):  
-                self.profDict['nms_stage_two'] = time.time()-st
+            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(),nms_threshold, use_jit = self.use_jit)
+            if self.prof:
+                self.profDict['nms_stage_two'].append(time.time()-st)
+            
+
+        
             boxes = boxes[keep]
 
         if not self.use3stage:
+            boxes = self._convert_to_square(boxes)
             boxes = self._refine_boxes(boxes, width, height)
         return boxes
-
+    
+    
     @_no_grad
     @timit
     def stage_three(self, img, boxes, threshold, nms_threshold):
@@ -358,8 +388,10 @@ class FaceDetector(object):
             candidate_faces.append(im)
         
         candidate_faces = torch.cat(candidate_faces, 0)
-
+        
         p_distribution, box_regs = self.onet(candidate_faces)
+
+        
 
         # filter negative boxes
         scores = p_distribution[:, 1]
@@ -375,12 +407,17 @@ class FaceDetector(object):
             boxes = self._refine_boxes(boxes, width, height)
             
             # nms
-            if(self.prof):
-                st = time.time()
-            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold, use_jit = self.use_jit)
+            
+            
+            st = time.time()
+            if self.use_c:
+                keep = func.nms_c(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold)
 
-            if(self.prof):  
-                self.profDict['nms_stage_three'] = time.time()-st
+            keep = func.nms(boxes.cpu().numpy(), scores.cpu().numpy(), nms_threshold, use_jit = self.use_jit)
+            if self.prof:
+                self.profDict['nms_stage_three'].append(time.time()-st)   
+            
+           
             boxes = boxes[keep]
         
         return boxes

@@ -5,19 +5,21 @@ import progressbar
 import sys
 sys.path.append('../')
 import time
+import wandb
 from model.mtcnn_pytorch import PNet, RNet,ONet
 from datagen.data import MtcnnDataset
 from torch.utils.tensorboard import SummaryWriter
 
 class Trainer(object):
 
-    def __init__(self, net_stage, device='cpu', log_dir='./runs', output_folder='./runs', resume=False,n_workers = 1,prof = False,verbose = True):
+    def __init__(self, net_stage, device='cpu', log_dir='../runs', output_folder='../runs',n_workers = 1,prof = 0,usewandb = 0):
         
-        self.verbose = verbose
         self.net_stage = net_stage
         self.device = device
         self.output_folder = output_folder
         self.prof = prof
+       
+
         if net_stage == 'pnet':
             self.net = PNet(is_train=True, device=self.device)
         
@@ -31,55 +33,68 @@ class Trainer(object):
         self.n_workers = n_workers
         self.globle_step = 1
         self.epoch_num = 1
+        self.useWandb = False
+        if usewandb == 1:
+            self.useWandb = True
+        else:
+            self.writer = SummaryWriter(log_dir=log_dir, purge_step=self.epoch_num)
+        
+    def train(self, num_epoch, batch_size, data_folder):
+        
+        if self.useWandb:
+            wandb.login()
+            
+            self.run = wandb.init(project = 'mtcc4edge_train',config={
+                                        "batch_size": batch_size,
+                                        "epochs": num_epoch,
+                                    },)
 
-        # if resume:
-        #     self.load_state_dict()
-        
-        self.writer = SummaryWriter(log_dir=log_dir, purge_step=self.epoch_num)
-        
-    def train(self, num_epoch, batch_size, data_folder,only_eval = False):
         dataset = MtcnnDataset(data_folder, self.net_stage, batch_size, suffix=self.net_stage,num_workers =self.n_workers)
         eval_dataset = MtcnnDataset(data_folder, self.net_stage, batch_size, suffix=self.net_stage+'_eval',num_workers =self.n_workers)
-        out = []
+
         for i in range(num_epoch - self.epoch_num + 1):
-            if only_eval == False:
-                print("Training epoch %d ......" % self.epoch_num)
-                data_iter, total_batch = dataset.get_iter()
-                self._train_epoch(data_iter, total_batch)
-                print("Training epoch %d done." % self.epoch_num)
+            
+            print("Training epoch %d ......" % self.epoch_num)
+            data_iter, total_batch = dataset.get_iter()
+            self._train_epoch(data_iter, total_batch)
+            print("Training epoch %d done." % self.epoch_num)
 
             if(self.prof == 0):
-                if(only_eval == False):
-                    print("Evaluate on training data...")
-                    data_iter, total_batch = dataset.get_iter()
-                    train_result = self.eval(data_iter, total_batch)
-                    self.writer.add_scalars(f"accuracy/{self.net_stage}", {"train":train_result['accuracy']}, global_step=self.epoch_num)
+                
+                print("Evaluate on training data...")
+                data_iter, total_batch = dataset.get_iter()
+                train_result = self.eval(data_iter, total_batch)
+                if self.useWandb:
+                    self.run.log({f"{self.net_stage}": {"training_acc":train_result['accuracy']}})
+                else:
+                    self.writer.add_scalars(f"accuracy/{self.net_stage}", {"train":train_result['accuracy']}, global_step=self.globle_step%32)
 
 
                 print("Evaluate on eval data...")
                 data_iter, total_batch = eval_dataset.get_iter()
                 eval_result = self.eval(data_iter, total_batch)
-
-                if(only_eval == False):
-                    self.writer.add_scalars(f"accuracy/{self.net_stage}", {"validation":eval_result['accuracy']}, global_step=self.epoch_num)
+                if self.useWandb:
+                    self.run.log({f"{self.net_stage}": {"validation_acc":eval_result['accuracy']}})
                 else:
-                    
-                    return eval_result
+
+                    self.writer.add_scalars(f"accuracy/{self.net_stage}", {"validation":eval_result['accuracy']}, global_step=self.globle_step%32)
+                
 
 
-        self.save_state_dict()
+            self.save_state_dict()
 
-        self.epoch_num += 1
+            self.epoch_num += 1
+            print(self.epoch_num)
 
     def _train_epoch(self, data_iter, total_batch):
-        if self.verbose:
-            bar = progressbar.ProgressBar(max_value=total_batch)
+        
+        bar = progressbar.ProgressBar(max_value=total_batch)
         total_dl_time = 0
         total_tr_time = 0
 
         for i, batch in enumerate(data_iter):
-            if self.verbose:
-                bar.update(i)
+            
+            bar.update(i)
 
             loss,dl_time,tr_time = self._train_batch(batch)
 
@@ -87,13 +102,22 @@ class Trainer(object):
             total_dl_time += dl_time
             total_tr_time += tr_time
 
-            self.writer.add_scalar(f'train/{self.net_stage}/batch_loss', loss, global_step=self.globle_step)
+            if self.useWandb:
+                 self.run.log({f"BatchWise/batch_loss/{self.net_stage}": loss})
+            else:
+                self.writer.add_scalar(f'train/{self.net_stage}/batch_loss', loss, global_step=self.globle_step)
             self.globle_step += 1
 
-        if self.verbose:
-            bar.update(total_batch)    
-        self.writer.add_scalars(f'Dataloader/{self.net_stage}',{f"worker_{self.n_workers}":total_dl_time}, global_step=self.epoch_num)
-        self.writer.add_scalar(f'train/{self.net_stage}/Average Train Time (Epoch)', total_tr_time, global_step=self.epoch_num)
+        
+        bar.update(total_batch)    
+
+        if self.useWandb:
+            self.run.log({f"DataLoader/{self.net_stage}": {f"worker_{self.n_workers}":total_dl_time}})
+            self.run.log({f"TrainTime": {f"{self.net_stage}":total_tr_time}})
+
+        else:
+            self.writer.add_scalars(f'Dataloader/{self.net_stage}',{f"worker_{self.n_workers}":total_dl_time}, global_step=self.epoch_num)
+            self.writer.add_scalar(f'train/{self.net_stage}/Average Train Time (Epoch)', total_tr_time, global_step=self.epoch_num)
 
     def _train_batch(self, batch):
 

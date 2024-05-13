@@ -1,0 +1,1 @@
+{"BatchWise/batch_loss/rnet": 0.43467482924461365, "_timestamp": 1715562899.6320002, "_runtime": 104.76400113105774, "_step": 2399, "DataLoader/rnet": {"worker_4": 0.28205084800720215}, "TrainTime": {"rnet": 1.5061228275299072}, "rnet": {"validation_acc": 0.8819411396980286}, "_wandb": {"runtime": 104}}

@@ -1,0 +1,1 @@
+{"BatchWise/batch_loss/pnet": 0.3599880635738373, "_timestamp": 1715557194.7824771, "_runtime": 165.44525814056396, "_step": 989, "DataLoader/pnet": {"worker_4": 0.17053008079528809}, "TrainTime": {"pnet": 0.566411018371582}, "pnet": {"validation_acc": 0.8795768022537231}, "_wandb": {"runtime": 165}}

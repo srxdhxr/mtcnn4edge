@@ -15,7 +15,7 @@ from utils.functional import IoU
 
 here = os.path.dirname(__file__)
 
-def generate_training_data_for_rnet(pnet, meta_data, output_folder, crop_size=24, suffix='rnet'):
+def generate_training_data_for_rnet(pnet, meta_data, output_folder, crop_size=32, suffix='rnet'):
     """
     For training P-net, crop positive(0), negative(1) and partface(2) from original images. 
     The Generated file will be saved in "output_folder"
@@ -35,7 +35,7 @@ def generate_training_data_for_rnet(pnet, meta_data, output_folder, crop_size=24
     detector.prof = False
     detector.use_jit = False
     detector.use3stage = True
-    
+    detector.use_c = False
     # Prepare for output folder.
     rnet_output_folder = os.path.join(output_folder, suffix)
 

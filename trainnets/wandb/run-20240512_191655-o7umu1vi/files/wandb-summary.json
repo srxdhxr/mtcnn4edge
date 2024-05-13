@@ -1,0 +1,1 @@
+{"training/pnet": {"accuracy": 0.9278489351272583, "avg_loss": 0.18345195055007935}, "_timestamp": 1715555984.1415353, "_runtime": 168.63305616378784, "_step": 19, "validation/pnet": {"accuracy": 0.8720871210098267, "avg_loss": 0.30134615302085876}, "_wandb": {"runtime": 168}}

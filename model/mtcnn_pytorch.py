@@ -84,9 +84,6 @@ class _Net(nn.Module):
 
         return cls_loss + box_loss 
 
-    def _init_net(self):
-        raise NotImplementedError
-
     def cls_loss(self, gt_label, pred_label):
         """Classification loss 
 
@@ -163,10 +160,10 @@ class PNet(_Net):
 
         # backend
         self.body = nn.Sequential(OrderedDict([
-            ('conv1', nn.Conv2d(3, 10, kernel_size=3, stride=1)),
-            ('prelu1', nn.PReLU(10)),
+            ('conv1', nn.Conv2d(3, 16, kernel_size=3, stride=1)),
+            ('prelu1', nn.PReLU(16)),
             ('pool1', nn.MaxPool2d(kernel_size=2, stride=2, ceil_mode=True)),
-            ('conv2', nn.Conv2d(10, 16, 3, 1)),
+            ('conv2', nn.Conv2d(16, 16, 3, 1)),
             ('prelu2', nn.PReLU(16)),
             ('conv3', nn.Conv2d(16, 32, kernel_size=3, stride=1)),
             ('prelu3', nn.PReLU(32))
@@ -198,19 +195,24 @@ class PNet(_Net):
 
 class RNet(_Net):
 
-    def __init__(self, **kwargs):
+    def __init__(self, isize = 24, **kwargs):
         # Hyper-parameter from original papaer
         param = [1, 0.5, 0.5]
+        if isize == 32:
+            self.n = 1600
+        else:
+           self.n = 576
+
         super(RNet, self).__init__(*param, **kwargs)
 
     def _init_net(self):
 
         self.body = nn.Sequential(OrderedDict([
-            ('conv1', nn.Conv2d(3, 28, kernel_size=3, stride=1)),
-            ('prelu1', nn.PReLU(28)),
+            ('conv1', nn.Conv2d(3, 32, kernel_size=5, stride=1)),
+            ('prelu1', nn.PReLU(32)),
             ('pool1', nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True)),
 
-            ('conv2', nn.Conv2d(28, 48, kernel_size=3, stride=1)),
+            ('conv2', nn.Conv2d(32, 48, kernel_size=3, stride=1)),
             ('prelu2', nn.PReLU(48)),
             ('pool2', nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True)),
 
@@ -218,7 +220,7 @@ class RNet(_Net):
             ('prelu3', nn.PReLU(64)),
 
             ('flatten', Flatten()),
-            ('conv4', nn.Linear(576, 128)),
+            ('conv4', nn.Linear(self.n , 128)),#orignally 576
             ('prelu4', nn.PReLU(128))
         ]))
 
@@ -245,14 +247,14 @@ class RNet(_Net):
         return det, box
 
     def to_script(self):
-        data = torch.randn((100, 3, 24, 24), device=self.device)
+        data = torch.randn((100, 3, 32, 32), device=self.device)
         script_module = torch.jit.trace(self, data)
         return script_module
 
 
 class ONet(_Net):
 
-    def __init__(self, **kwargs):
+    def __init__(self,**kwargs,):
         # Hyper-parameter from original papaer
         param = [1, 5, 50]
         super(ONet, self).__init__(*param, **kwargs)
@@ -277,7 +279,7 @@ class ONet(_Net):
             ('prelu4', nn.PReLU(128)),
 
             ('flatten', Flatten()),
-            ('conv5', nn.Linear(1152, 256)),
+            ('conv5', nn.Linear(1152, 256)), 
             ('drop5', nn.Dropout(0.25)),
             ('prelu5', nn.PReLU(256)),
         ]))

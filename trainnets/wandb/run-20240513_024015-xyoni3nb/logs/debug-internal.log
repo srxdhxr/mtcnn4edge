@@ -1,0 +1,192 @@
+2024-05-13 02:40:15,999 INFO    StreamThr :24190 [internal.py:wandb_internal():86] W&B internal server running at pid: 24190, started at: 2024-05-13 02:40:15.998907
+2024-05-13 02:40:16,001 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: status
+2024-05-13 02:40:16,003 INFO    WriterThread:24190 [datastore.py:open_for_write():87] open: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/run-xyoni3nb.wandb
+2024-05-13 02:40:16,004 DEBUG   SenderThread:24190 [sender.py:send():379] send: header
+2024-05-13 02:40:16,005 DEBUG   SenderThread:24190 [sender.py:send():379] send: run
+2024-05-13 02:40:16,251 INFO    SenderThread:24190 [dir_watcher.py:__init__():211] watching files in: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files
+2024-05-13 02:40:16,251 INFO    SenderThread:24190 [sender.py:_start_run_threads():1124] run started: xyoni3nb with start time 1715582415.999816
+2024-05-13 02:40:16,251 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: check_version
+2024-05-13 02:40:16,252 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: check_version
+2024-05-13 02:40:16,355 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: run_start
+2024-05-13 02:40:16,372 DEBUG   HandlerThread:24190 [system_info.py:__init__():26] System info init
+2024-05-13 02:40:16,373 DEBUG   HandlerThread:24190 [system_info.py:__init__():41] System info init done
+2024-05-13 02:40:16,373 INFO    HandlerThread:24190 [system_monitor.py:start():194] Starting system monitor
+2024-05-13 02:40:16,373 INFO    SystemMonitor:24190 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-05-13 02:40:16,374 INFO    HandlerThread:24190 [system_monitor.py:probe():214] Collecting system info
+2024-05-13 02:40:16,374 INFO    SystemMonitor:24190 [interfaces.py:start():190] Started cpu monitoring
+2024-05-13 02:40:16,374 INFO    SystemMonitor:24190 [interfaces.py:start():190] Started disk monitoring
+2024-05-13 02:40:16,376 INFO    SystemMonitor:24190 [interfaces.py:start():190] Started gpu monitoring
+2024-05-13 02:40:16,377 INFO    SystemMonitor:24190 [interfaces.py:start():190] Started memory monitoring
+2024-05-13 02:40:16,377 INFO    SystemMonitor:24190 [interfaces.py:start():190] Started network monitoring
+2024-05-13 02:40:16,394 DEBUG   HandlerThread:24190 [system_info.py:probe():150] Probing system
+2024-05-13 02:40:16,429 DEBUG   HandlerThread:24190 [system_info.py:_probe_git():135] Probing git
+2024-05-13 02:40:16,433 DEBUG   HandlerThread:24190 [system_info.py:_probe_git():143] Probing git done
+2024-05-13 02:40:16,433 DEBUG   HandlerThread:24190 [system_info.py:probe():198] Probing system done
+2024-05-13 02:40:16,433 DEBUG   HandlerThread:24190 [system_monitor.py:probe():223] {'os': 'Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.35', 'python': '3.11.7', 'heartbeatAt': '2024-05-13T06:40:16.394144', 'startedAt': '2024-05-13T06:40:15.994045', 'docker': None, 'cuda': None, 'args': ('-e', '20', '-b', '256', '-o', '../output/trainedModels/rnet.pth', '-dv', 'cuda', '-w', '4', '-wandb', '1'), 'state': 'running', 'program': '/home/srxdhxr/mtcnn4edge/trainnets/train_rnet.py', 'codePathLocal': 'train_rnet.py', 'codePath': 'trainnets/train_rnet.py', 'git': {'remote': 'git@github.com:srxdhxr/mtcnn4edge.git', 'commit': 'c43bbc1a0f4657513b2cbc15b64b0ed58053f808'}, 'email': 'sridharkashyap04@gmail.com', 'root': '/home/srxdhxr/mtcnn4edge', 'host': 'MSI', 'username': 'srxdhxr', 'executable': '/home/srxdhxr/anaconda3/envs/cuda_env/bin/python', 'cpu_count': 10, 'cpu_count_logical': 20, 'cpu_freq': {'current': 2687.9989999999984, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}, {'current': 2687.999, 'min': 0.0, 'max': 0.0}], 'disk': {'/': {'total': 1006.853931427002, 'used': 88.0649299621582}}, 'gpu': 'NVIDIA GeForce RTX 3060 Laptop GPU', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3060 Laptop GPU', 'memory_total': 6442450944}], 'memory': {'total': 7.6137237548828125}}
+2024-05-13 02:40:16,433 INFO    HandlerThread:24190 [system_monitor.py:probe():224] Finished collecting system info
+2024-05-13 02:40:16,433 INFO    HandlerThread:24190 [system_monitor.py:probe():227] Publishing system info
+2024-05-13 02:40:16,433 DEBUG   HandlerThread:24190 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-05-13 02:40:17,252 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_created():271] file/dir created: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/conda-environment.yaml
+2024-05-13 02:40:22,823 DEBUG   HandlerThread:24190 [system_info.py:_save_conda():222] Saving conda packages done
+2024-05-13 02:40:22,824 INFO    HandlerThread:24190 [system_monitor.py:probe():229] Finished publishing system info
+2024-05-13 02:40:22,828 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: status_report
+2024-05-13 02:40:22,829 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: keepalive
+2024-05-13 02:40:22,829 DEBUG   SenderThread:24190 [sender.py:send():379] send: files
+2024-05-13 02:40:22,829 INFO    SenderThread:24190 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2024-05-13 02:40:23,048 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: python_packages
+2024-05-13 02:40:23,048 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: python_packages
+2024-05-13 02:40:23,048 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: stop_status
+2024-05-13 02:40:23,049 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: stop_status
+2024-05-13 02:40:23,050 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: internal_messages
+2024-05-13 02:40:23,173 DEBUG   SenderThread:24190 [sender.py:send():379] send: telemetry
+2024-05-13 02:40:23,194 INFO    wandb-upload_0:24190 [upload_job.py:push():131] Uploaded file /tmp/tmp_8fewsepwandb/f0u2zvbv-wandb-metadata.json
+2024-05-13 02:40:23,253 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/conda-environment.yaml
+2024-05-13 02:40:23,253 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_created():271] file/dir created: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/output.log
+2024-05-13 02:40:23,253 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_created():271] file/dir created: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/wandb-metadata.json
+2024-05-13 02:40:23,254 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_created():271] file/dir created: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/requirements.txt
+2024-05-13 02:40:24,427 DEBUG   SenderThread:24190 [sender.py:send():379] send: exit
+2024-05-13 02:40:24,427 INFO    SenderThread:24190 [sender.py:send_exit():586] handling exit code: 1
+2024-05-13 02:40:24,427 INFO    SenderThread:24190 [sender.py:send_exit():588] handling runtime: 8
+2024-05-13 02:40:24,428 INFO    SenderThread:24190 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2024-05-13 02:40:24,428 INFO    SenderThread:24190 [sender.py:send_exit():594] send defer
+2024-05-13 02:40:24,428 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,428 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 0
+2024-05-13 02:40:24,428 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,428 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 0
+2024-05-13 02:40:24,428 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 1
+2024-05-13 02:40:24,428 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,429 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 1
+2024-05-13 02:40:24,429 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,429 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 1
+2024-05-13 02:40:24,429 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 2
+2024-05-13 02:40:24,429 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,429 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 2
+2024-05-13 02:40:24,429 INFO    HandlerThread:24190 [system_monitor.py:finish():203] Stopping system monitor
+2024-05-13 02:40:24,430 INFO    HandlerThread:24190 [interfaces.py:finish():202] Joined cpu monitor
+2024-05-13 02:40:24,430 INFO    HandlerThread:24190 [interfaces.py:finish():202] Joined disk monitor
+2024-05-13 02:40:24,430 DEBUG   SystemMonitor:24190 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-05-13 02:40:24,430 DEBUG   SystemMonitor:24190 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-05-13 02:40:24,430 DEBUG   SystemMonitor:24190 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-05-13 02:40:24,444 INFO    HandlerThread:24190 [interfaces.py:finish():202] Joined gpu monitor
+2024-05-13 02:40:24,444 INFO    HandlerThread:24190 [interfaces.py:finish():202] Joined memory monitor
+2024-05-13 02:40:24,445 INFO    HandlerThread:24190 [interfaces.py:finish():202] Joined network monitor
+2024-05-13 02:40:24,445 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,445 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 2
+2024-05-13 02:40:24,445 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 3
+2024-05-13 02:40:24,445 DEBUG   SenderThread:24190 [sender.py:send():379] send: stats
+2024-05-13 02:40:24,445 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,445 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 3
+2024-05-13 02:40:24,445 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,445 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 3
+2024-05-13 02:40:24,445 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 4
+2024-05-13 02:40:24,446 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,446 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 4
+2024-05-13 02:40:24,446 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,446 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 4
+2024-05-13 02:40:24,446 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 5
+2024-05-13 02:40:24,446 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,446 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 5
+2024-05-13 02:40:24,446 DEBUG   SenderThread:24190 [sender.py:send():379] send: summary
+2024-05-13 02:40:24,446 INFO    SenderThread:24190 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2024-05-13 02:40:24,446 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,446 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 5
+2024-05-13 02:40:24,446 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 6
+2024-05-13 02:40:24,446 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,446 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 6
+2024-05-13 02:40:24,447 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,447 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 6
+2024-05-13 02:40:24,448 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: status_report
+2024-05-13 02:40:24,514 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 7
+2024-05-13 02:40:24,514 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:24,514 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 7
+2024-05-13 02:40:24,515 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:24,515 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 7
+2024-05-13 02:40:25,255 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/config.yaml
+2024-05-13 02:40:25,255 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/output.log
+2024-05-13 02:40:25,255 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_created():271] file/dir created: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/wandb-summary.json
+2024-05-13 02:40:25,428 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: poll_exit
+2024-05-13 02:40:25,915 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 8
+2024-05-13 02:40:25,915 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: poll_exit
+2024-05-13 02:40:25,915 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:25,915 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 8
+2024-05-13 02:40:25,915 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:25,915 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 8
+2024-05-13 02:40:25,915 INFO    SenderThread:24190 [job_builder.py:build():318] Attempting to build job artifact
+2024-05-13 02:40:25,915 INFO    SenderThread:24190 [job_builder.py:_get_source_type():455] is repo sourced job
+2024-05-13 02:40:25,934 INFO    SenderThread:24190 [job_builder.py:build():431] adding wandb-job metadata file
+2024-05-13 02:40:25,941 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 9
+2024-05-13 02:40:25,941 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:25,941 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 9
+2024-05-13 02:40:25,941 DEBUG   SenderThread:24190 [sender.py:send():379] send: artifact
+2024-05-13 02:40:26,255 INFO    Thread-12 :24190 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/output.log
+2024-05-13 02:40:26,429 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: poll_exit
+2024-05-13 02:40:26,508 INFO    wandb-upload_0:24190 [upload_job.py:push():86] Skipped uploading /home/srxdhxr/.local/share/wandb/artifacts/staging/tmppak852yo
+2024-05-13 02:40:26,669 INFO    wandb-upload_1:24190 [upload_job.py:push():89] Uploaded file /tmp/tmp3lbk11qb/wandb-job.json
+2024-05-13 02:40:27,304 INFO    SenderThread:24190 [sender.py:send_artifact():1468] sent artifact job-git_github.com_srxdhxr_mtcnn4edge.git_trainnets_train_rnet.py - {'id': 'QXJ0aWZhY3Q6ODMzOTA1MjYw', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE3Mzg4NzA3Mw==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6ODMzNjMwMDYx', 'versionIndex': 0}}}
+2024-05-13 02:40:27,304 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:27,304 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 9
+2024-05-13 02:40:27,304 INFO    SenderThread:24190 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-05-13 02:40:28,259 INFO    SenderThread:24190 [dir_watcher.py:finish():388] scan: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files
+2024-05-13 02:40:28,259 INFO    SenderThread:24190 [dir_watcher.py:finish():402] scan save: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/config.yaml config.yaml
+2024-05-13 02:40:28,259 INFO    SenderThread:24190 [dir_watcher.py:finish():402] scan save: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/conda-environment.yaml conda-environment.yaml
+2024-05-13 02:40:28,259 INFO    SenderThread:24190 [dir_watcher.py:finish():402] scan save: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/wandb-summary.json wandb-summary.json
+2024-05-13 02:40:28,260 INFO    SenderThread:24190 [dir_watcher.py:finish():402] scan save: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/wandb-metadata.json wandb-metadata.json
+2024-05-13 02:40:28,260 INFO    SenderThread:24190 [dir_watcher.py:finish():402] scan save: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/output.log output.log
+2024-05-13 02:40:28,260 INFO    SenderThread:24190 [dir_watcher.py:finish():402] scan save: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/requirements.txt requirements.txt
+2024-05-13 02:40:28,269 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 10
+2024-05-13 02:40:28,269 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: poll_exit
+2024-05-13 02:40:28,276 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:28,277 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 10
+2024-05-13 02:40:28,278 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:28,278 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 10
+2024-05-13 02:40:28,278 INFO    SenderThread:24190 [file_pusher.py:finish():172] shutting down file pusher
+2024-05-13 02:40:28,432 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: poll_exit
+2024-05-13 02:40:28,434 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: poll_exit
+2024-05-13 02:40:28,477 INFO    wandb-upload_2:24190 [upload_job.py:push():131] Uploaded file /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/config.yaml
+2024-05-13 02:40:28,637 INFO    wandb-upload_1:24190 [upload_job.py:push():131] Uploaded file /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/wandb-summary.json
+2024-05-13 02:40:28,721 INFO    wandb-upload_3:24190 [upload_job.py:push():131] Uploaded file /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/output.log
+2024-05-13 02:40:28,728 INFO    wandb-upload_0:24190 [upload_job.py:push():131] Uploaded file /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/conda-environment.yaml
+2024-05-13 02:40:28,733 INFO    wandb-upload_4:24190 [upload_job.py:push():131] Uploaded file /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/files/requirements.txt
+2024-05-13 02:40:28,934 INFO    Thread-11 (_thread_body):24190 [sender.py:transition_state():614] send defer: 11
+2024-05-13 02:40:28,935 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:28,935 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 11
+2024-05-13 02:40:28,935 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:28,935 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 11
+2024-05-13 02:40:28,935 INFO    SenderThread:24190 [file_pusher.py:join():178] waiting for file pusher
+2024-05-13 02:40:28,936 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 12
+2024-05-13 02:40:28,936 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:28,936 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 12
+2024-05-13 02:40:28,936 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:28,936 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 12
+2024-05-13 02:40:28,936 INFO    SenderThread:24190 [file_stream.py:finish():614] file stream finish called
+2024-05-13 02:40:28,994 INFO    SenderThread:24190 [file_stream.py:finish():618] file stream finish is done
+2024-05-13 02:40:28,994 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 13
+2024-05-13 02:40:28,994 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:28,995 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 13
+2024-05-13 02:40:28,995 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:28,995 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 13
+2024-05-13 02:40:28,995 INFO    SenderThread:24190 [sender.py:transition_state():614] send defer: 14
+2024-05-13 02:40:28,995 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: defer
+2024-05-13 02:40:28,995 DEBUG   SenderThread:24190 [sender.py:send():379] send: final
+2024-05-13 02:40:28,996 DEBUG   SenderThread:24190 [sender.py:send():379] send: footer
+2024-05-13 02:40:28,995 INFO    HandlerThread:24190 [handler.py:handle_request_defer():172] handle defer: 14
+2024-05-13 02:40:28,996 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: defer
+2024-05-13 02:40:28,996 INFO    SenderThread:24190 [sender.py:send_request_defer():610] handle sender defer: 14
+2024-05-13 02:40:28,997 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: poll_exit
+2024-05-13 02:40:28,999 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: poll_exit
+2024-05-13 02:40:29,000 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: poll_exit
+2024-05-13 02:40:29,000 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: server_info
+2024-05-13 02:40:29,000 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: poll_exit
+2024-05-13 02:40:29,000 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: get_summary
+2024-05-13 02:40:29,001 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: sampled_history
+2024-05-13 02:40:29,001 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: internal_messages
+2024-05-13 02:40:29,001 DEBUG   SenderThread:24190 [sender.py:send_request():406] send_request: server_info
+2024-05-13 02:40:29,065 INFO    MainThread:24190 [wandb_run.py:_footer_history_summary_info():3936] rendering history
+2024-05-13 02:40:29,065 INFO    MainThread:24190 [wandb_run.py:_footer_history_summary_info():3968] rendering summary
+2024-05-13 02:40:29,065 INFO    MainThread:24190 [wandb_run.py:_footer_sync_info():3895] logging synced files
+2024-05-13 02:40:29,067 DEBUG   HandlerThread:24190 [handler.py:handle_request():146] handle_request: shutdown
+2024-05-13 02:40:29,067 INFO    HandlerThread:24190 [handler.py:finish():866] shutting down handler
+2024-05-13 02:40:30,001 INFO    WriterThread:24190 [datastore.py:close():296] close: /home/srxdhxr/mtcnn4edge/trainnets/wandb/run-20240513_024015-xyoni3nb/run-xyoni3nb.wandb
+2024-05-13 02:40:30,064 INFO    SenderThread:24190 [sender.py:finish():1546] shutting down sender
+2024-05-13 02:40:30,065 INFO    SenderThread:24190 [file_pusher.py:finish():172] shutting down file pusher
+2024-05-13 02:40:30,065 INFO    SenderThread:24190 [file_pusher.py:join():178] waiting for file pusher

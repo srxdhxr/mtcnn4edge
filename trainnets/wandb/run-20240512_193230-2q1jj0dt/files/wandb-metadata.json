@@ -1,0 +1,161 @@
+{
+    "os": "Linux-5.15.146.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.11.7",
+    "heartbeatAt": "2024-05-12T23:32:30.725511",
+    "startedAt": "2024-05-12T23:32:30.341721",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "-e",
+        "10",
+        "-b",
+        "256",
+        "-o",
+        "../output/trainedModels/pnet.pth",
+        "-dv",
+        "cuda",
+        "-w",
+        "4",
+        "-wandb",
+        "1"
+    ],
+    "state": "running",
+    "program": "/home/srxdhxr/mtcnn4edge/trainnets/train_pnet.py",
+    "codePathLocal": "train_pnet.py",
+    "codePath": "trainnets/train_pnet.py",
+    "git": {
+        "remote": "git@github.com:srxdhxr/mtcnn4edge.git",
+        "commit": "c43bbc1a0f4657513b2cbc15b64b0ed58053f808"
+    },
+    "email": "sridharkashyap04@gmail.com",
+    "root": "/home/srxdhxr/mtcnn4edge",
+    "host": "MSI",
+    "username": "srxdhxr",
+    "executable": "/home/srxdhxr/anaconda3/envs/cuda_env/bin/python",
+    "cpu_count": 10,
+    "cpu_count_logical": 20,
+    "cpu_freq": {
+        "current": 2687.9989999999984,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2687.999,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 1006.853931427002,
+            "used": 87.31162643432617
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+            "memory_total": 6442450944
+        }
+    ],
+    "memory": {
+        "total": 7.6137237548828125
+    }
+}

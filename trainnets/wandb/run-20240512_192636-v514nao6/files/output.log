@@ -1,0 +1,162 @@
+['train_pnet.py', 'train_net.py', 'runs', 'train_rnet.py', 'wandb', '__pycache__', 'train_onet.py']
+['train_pnet.py', 'train_net.py', 'runs', 'train_rnet.py', 'wandb', '__pycache__', 'train_onet.py']
+Training epoch 1 ......
+[38m 89%[39m [38m(85 of 95)[39m |#####################################################################################################            | Elapsed Time: 0:00:01 ETA:   0:00:00
+Training epoch 1 done.
+
+[38m  0%[39m [38m(0 of 1017)[39m |                                                                                                                | Elapsed Time: 0:00:00 ETA:  --:--:--
+
+
+
+
+
+[38m 80%[39m [38m(818 of 1017)[39m |########################################################################################                      | Elapsed Time: 0:00:10 ETA:   0:00:02[34m[1mwandb[39m[22m: [33mWARNING[39m Step only supports monotonically increasing values, use define_metric to set a custom x axis. For details see: https://wandb.me/define-metric
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 1 is less than current step: 95. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.1044471263885498}, '_timestamp': 1715556405.9860532}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 1 is less than current step: 95. Dropping entry: {'TrainTime': {'pnet': 0.9976484775543213}, '_timestamp': 1715556405.9861891}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 1 is less than current step: 95. Dropping entry: {'training/pnet': {'accuracy': 0.8518786430358887, 'avg_loss': 0.31544652581214905}, '_timestamp': 1715556407.438462}).
+[38m 92%[39m [38m(939 of 1017)[39m |#####################################################################################################         | Elapsed Time: 0:00:12 ETA:   0:00:01
+2
+
+[38m 44%[39m [38m(42 of 95)[39m |#################################################                                                                | Elapsed Time: 0:00:00 ETA:   0:00:00
+Training epoch 2 done.
+
+[38m 72%[39m [38m(69 of 95)[39m |##################################################################################                               | Elapsed Time: 0:00:00 ETA:   0:00:00
+
+
+
+
+[38m 64%[39m [38m(660 of 1017)[39m |#######################################################################                                       | Elapsed Time: 0:00:08 ETA:   0:00:04[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 1 is less than current step: 95. Dropping entry: {'validation/pnet': {'accuracy': 0.8064064979553223, 'avg_loss': 0.34464502334594727}, '_timestamp': 1715556420.969278}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 2 is less than current step: 190. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.18132948875427246}, '_timestamp': 1715556422.7046974}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 2 is less than current step: 190. Dropping entry: {'TrainTime': {'pnet': 0.5998704433441162}, '_timestamp': 1715556422.7048125}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 2 is less than current step: 190. Dropping entry: {'training/pnet': {'accuracy': 0.8754644989967346, 'avg_loss': 0.27920374274253845}, '_timestamp': 1715556424.2409453}).
+
+
+[38m100%[39m [38m(1017 of 1017)[39m |#############################################################################################################| Elapsed Time: 0:00:13 ETA:  00:00:00
+3
+
+[38m100%[39m [38m(95 of 95)[39m |#################################################################################################################| Elapsed Time: 0:00:01 ETA:  00:00:00
+Training epoch 3 done.
+
+[38m  1%[39m [38m(12 of 1017)[39m |#                                                                                                              | Elapsed Time: 0:00:00 ETA:   0:00:18
+
+
+
+[38m 45%[39m [38m(467 of 1017)[39m |##################################################                                                            | Elapsed Time: 0:00:06 ETA:   0:00:07[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 2 is less than current step: 190. Dropping entry: {'validation/pnet': {'accuracy': 0.820720374584198, 'avg_loss': 0.3478446900844574}, '_timestamp': 1715556437.9311197}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 3 is less than current step: 285. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.17681217193603516}, '_timestamp': 1715556439.8395166}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 3 is less than current step: 285. Dropping entry: {'TrainTime': {'pnet': 0.6870074272155762}, '_timestamp': 1715556439.8397357}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 3 is less than current step: 285. Dropping entry: {'training/pnet': {'accuracy': 0.904521107673645, 'avg_loss': 0.23219440877437592}, '_timestamp': 1715556441.312478}).
+
+
+
+[38m 31%[39m [38m(30 of 95)[39m |###################################                                                                              | Elapsed Time: 0:00:00 ETA:   0:00:01
+4
+Training epoch 4 ......
+Training epoch 4 done.
+
+[38m 58%[39m [38m(56 of 95)[39m |##################################################################                                               | Elapsed Time: 0:00:00 ETA:   0:00:00
+
+
+[38m 30%[39m [38m(315 of 1017)[39m |##################################                                                                            | Elapsed Time: 0:00:04 ETA:   0:00:09[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 3 is less than current step: 285. Dropping entry: {'validation/pnet': {'accuracy': 0.8559696078300476, 'avg_loss': 0.3130244314670563}, '_timestamp': 1715556455.262557}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 4 is less than current step: 380. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.1796870231628418}, '_timestamp': 1715556457.0308316}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 4 is less than current step: 380. Dropping entry: {'TrainTime': {'pnet': 0.6457846164703369}, '_timestamp': 1715556457.0309796}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 4 is less than current step: 380. Dropping entry: {'training/pnet': {'accuracy': 0.9131916165351868, 'avg_loss': 0.21621082723140717}, '_timestamp': 1715556458.517101}).
+
+
+
+
+
+[38m 47%[39m [38m(45 of 95)[39m |#####################################################                                                            | Elapsed Time: 0:00:00 ETA:   0:00:00
+5
+Training epoch 5 ......
+Training epoch 5 done.
+
+[38m 67%[39m [38m(64 of 95)[39m |############################################################################                                     | Elapsed Time: 0:00:00 ETA:   0:00:00
+
+[38m 10%[39m [38m(103 of 1017)[39m |###########                                                                                                   | Elapsed Time: 0:00:01 ETA:   0:00:11[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 4 is less than current step: 380. Dropping entry: {'validation/pnet': {'accuracy': 0.8642743229866028, 'avg_loss': 0.3055870532989502}, '_timestamp': 1715556473.067324}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 5 is less than current step: 475. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.1793813705444336}, '_timestamp': 1715556474.912087}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 5 is less than current step: 475. Dropping entry: {'TrainTime': {'pnet': 0.638916015625}, '_timestamp': 1715556474.9122357}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 5 is less than current step: 475. Dropping entry: {'training/pnet': {'accuracy': 0.9153076410293579, 'avg_loss': 0.2115207016468048}, '_timestamp': 1715556476.589545}).
+
+
+
+
+
+[38m  7%[39m [38m(7 of 95)[39m |########                                                                                                          | Elapsed Time: 0:00:00 ETA:   0:00:01
+6
+
+[38m 24%[39m [38m(23 of 95)[39m |###########################                                                                                      | Elapsed Time: 0:00:00 ETA:   0:00:00
+Training epoch 6 done.
+Evaluate on training data...
+[38m100%[39m [38m(95 of 95)[39m |#################################################################################################################| Elapsed Time: 0:00:01 ETA:  00:00:00[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 5 is less than current step: 475. Dropping entry: {'validation/pnet': {'accuracy': 0.8656150102615356, 'avg_loss': 0.30417147278785706}, '_timestamp': 1715556489.6697872}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 6 is less than current step: 570. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.1733551025390625}, '_timestamp': 1715556491.5972137}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 6 is less than current step: 570. Dropping entry: {'TrainTime': {'pnet': 0.6952941417694092}, '_timestamp': 1715556491.5973387}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 6 is less than current step: 570. Dropping entry: {'training/pnet': {'accuracy': 0.9171655774116516, 'avg_loss': 0.20520873367786407}, '_timestamp': 1715556493.0268521}).
+
+
+
+
+
+
+[38m  0%[39m [38m(0 of 95)[39m |                                                                                                                  | Elapsed Time: 0:00:00 ETA:  --:--:--
+7
+
+[38m 12%[39m [38m(12 of 95)[39m |##############                                                                                                   | Elapsed Time: 0:00:00 ETA:   0:00:01
+Training epoch 7 done.
+[38m 16%[39m [38m(16 of 95)[39m |###################                                                                                              | Elapsed Time: 0:00:00 ETA:   0:00:01[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 6 is less than current step: 570. Dropping entry: {'validation/pnet': {'accuracy': 0.8645540475845337, 'avg_loss': 0.3082820773124695}, '_timestamp': 1715556505.8555644}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 7 is less than current step: 665. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.185746431350708}, '_timestamp': 1715556507.6818297}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 7 is less than current step: 665. Dropping entry: {'TrainTime': {'pnet': 0.6280117034912109}, '_timestamp': 1715556507.681982}).
+[38m  4%[39m [38m(49 of 1017)[39m |#####                                                                                                          | Elapsed Time: 0:00:00 ETA:   0:00:13
+
+
+
+
+
+
+[38m 53%[39m [38m(51 of 95)[39m |############################################################                                                     | Elapsed Time: 0:00:00 ETA:   0:00:00
+8
+Training epoch 8 ......
+Training epoch 8 done.
+[38m  3%[39m [38m(3 of 95)[39m |###                                                                                                               | Elapsed Time: 0:00:00 ETA:   0:00:01[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 7 is less than current step: 665. Dropping entry: {'training/pnet': {'accuracy': 0.9195396900177002, 'avg_loss': 0.1979401707649231}, '_timestamp': 1715556509.2271235}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 7 is less than current step: 665. Dropping entry: {'validation/pnet': {'accuracy': 0.8726706504821777, 'avg_loss': 0.29306015372276306}, '_timestamp': 1715556521.2477272}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 8 is less than current step: 760. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.16852402687072754}, '_timestamp': 1715556522.858397}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 8 is less than current step: 760. Dropping entry: {'TrainTime': {'pnet': 0.5314652919769287}, '_timestamp': 1715556522.85854}).
+[38m100%[39m [38m(95 of 95)[39m |#################################################################################################################| Elapsed Time: 0:00:01 ETA:  00:00:00
+
+
+
+
+
+
+[38m100%[39m [38m(1017 of 1017)[39m |#############################################################################################################| Elapsed Time: 0:00:11 ETA:  00:00:00
+9
+
+[38m100%[39m [38m(95 of 95)[39m |#################################################################################################################| Elapsed Time: 0:00:01 ETA:  00:00:00
+Training epoch 9 done.
+[38m100%[39m [38m(95 of 95)[39m |#################################################################################################################| Elapsed Time: 0:00:01 ETA:  00:00:00[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 8 is less than current step: 760. Dropping entry: {'training/pnet': {'accuracy': 0.9213976263999939, 'avg_loss': 0.19407351315021515}, '_timestamp': 1715556524.272025}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 8 is less than current step: 760. Dropping entry: {'validation/pnet': {'accuracy': 0.8770207166671753, 'avg_loss': 0.29086875915527344}, '_timestamp': 1715556536.3488293}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 9 is less than current step: 855. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.1724863052368164}, '_timestamp': 1715556538.0074575}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 9 is less than current step: 855. Dropping entry: {'TrainTime': {'pnet': 0.568202018737793}, '_timestamp': 1715556538.007824}).
+[38m  5%[39m [38m(55 of 1017)[39m |######                                                                                                         | Elapsed Time: 0:00:00 ETA:   0:00:11
+
+
+
+
+
+[38m 95%[39m [38m(969 of 1017)[39m |########################################################################################################      | Elapsed Time: 0:00:10 ETA:   0:00:00
+10
+
+[38m 87%[39m [38m(83 of 95)[39m |##################################################################################################               | Elapsed Time: 0:00:01 ETA:   0:00:00
+Training epoch 10 done.
+[38m 35%[39m [38m(34 of 95)[39m |########################################                                                                         | Elapsed Time: 0:00:00 ETA:   0:00:00[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 9 is less than current step: 855. Dropping entry: {'training/pnet': {'accuracy': 0.9259909391403198, 'avg_loss': 0.18626859784126282}, '_timestamp': 1715556539.4043794}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 9 is less than current step: 855. Dropping entry: {'validation/pnet': {'accuracy': 0.8772956132888794, 'avg_loss': 0.29423022270202637}, '_timestamp': 1715556550.9886048}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 10 is less than current step: 950. Dropping entry: {'DataLoader/pnet': {'worker_4': 0.17567682266235352}, '_timestamp': 1715556552.6029482}).
+[34m[1mwandb[39m[22m: [33mWARNING[39m (User provided step: 10 is less than current step: 950. Dropping entry: {'TrainTime': {'pnet': 0.5379555225372314}, '_timestamp': 1715556552.6030908}).
+[38m  0%[39m [38m(7 of 1017)[39m |                                                                                                                | Elapsed Time: 0:00:00 ETA:   0:00:13
+
+
+
+
+
+
+[38m100%[39m [38m(1017 of 1017)[39m |#############################################################################################################| Elapsed Time: 0:00:11 ETA:  00:00:00
+11

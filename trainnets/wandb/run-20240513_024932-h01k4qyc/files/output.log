@@ -1,0 +1,39 @@
+['train_pnet.py', 'train_net.py', 'runs', 'train_rnet.py', 'wandb', '__pycache__', 'train_onet.py']
+['train_pnet.py', 'train_net.py', 'runs', 'train_rnet.py', 'wandb', '__pycache__', 'train_onet.py']
+Training epoch 1 ......
+[38m  0%[39m [38m(0 of 206)[39m |                                                                                               | Elapsed Time: 0:00:00 ETA:  --:--:--Traceback (most recent call last):
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_rnet.py", line 19, in <module>
+    trainer.train(args.epoch, args.batch_size, args.data_train)
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_net.py", line 59, in train
+    self._train_epoch(data_iter, total_batch)
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_net.py", line 99, in _train_epoch
+    loss,dl_time,tr_time = self._train_batch(batch)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_net.py", line 132, in _train_batch
+    loss = self.net.get_loss(images, labels, boxes_reg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/mtcnn4edge/trainnets/../model/mtcnn_pytorch.py", line 74, in get_loss
+    pred_label, pred_offset = self.forward(x)
+                              ^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/mtcnn4edge/trainnets/../model/mtcnn_pytorch.py", line 236, in forward
+    x = self.body(x)
+        ^^^^^^^^^^^^
+  File "/home/srxdhxr/anaconda3/envs/cuda_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/anaconda3/envs/cuda_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/anaconda3/envs/cuda_env/lib/python3.11/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/srxdhxr/anaconda3/envs/cuda_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/anaconda3/envs/cuda_env/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/srxdhxr/anaconda3/envs/cuda_env/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 116, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (255x1600 and 576x128)

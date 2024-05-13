@@ -1,0 +1,12 @@
+['train_pnet.py', 'train_net.py', 'runs', 'train_rnet.py', 'wandb', '__pycache__', 'train_onet.py']
+['train_pnet.py', 'train_net.py', 'runs', 'train_rnet.py', 'wandb', '__pycache__', 'train_onet.py']
+Training epoch 1 ......
+[38m100%[39m [38m(95 of 95)[39m |#################################################################################################################| Elapsed Time: 0:00:01 ETA:  00:00:00Traceback (most recent call last):
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_pnet.py", line 17, in <module>
+    trainer.train(args.epoch, args.batch_size, args.data_train)
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_net.py", line 58, in train
+    self._train_epoch(data_iter, total_batch)
+  File "/home/srxdhxr/mtcnn4edge/trainnets/train_net.py", line 114, in _train_epoch
+    self.run.log({f"DataLoader/{self.net_stage}": {f"worker_{self.n_worker}":total_dl_time}},step=self.epoch_num)
+                                                             ^^^^^^^^^^^^^
+AttributeError: 'Trainer' object has no attribute 'n_worker'
