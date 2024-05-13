@@ -28,9 +28,9 @@ step 3: `python train_rnet.py -e 10 -b 256 -o ../output/trainedModels/rnet.pth -
 step 1: `cd ..`  
 step 2: Follow ``inference_speed_analysis.ipynb``
 
-### In development  
+### Try on Webcam  
 step 1: `cd ..`  
-step 2: `detectCam.py`
+step 2: `python .\detectCam.py -jit True -stage 5 -quantized True`
 
 ## Sample Detection Result
 ![The Office Cast](sample_detection.png)
