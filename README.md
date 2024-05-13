@@ -33,10 +33,10 @@ step 1: `cd ..`
 step 2: `detectCam.py`
 
 ## Sample Detection Result
-[The Office Cast](sample_detection.png)
+![The Office Cast](sample_detection.png)
 
 ## Inference Speed Up Analysis
-[1.5x Speed Up from Conventional MTCNN to 2 Stage JIT Enabled MTCNN](analysis.png)
+![1.5x Speed Up from Conventional MTCNN to 2 Stage JIT Enabled MTCNN](analysis.png)
 
 #### Credit to [FaceDetector by BrightXiaoHan](https://github.com/BrightXiaoHan/FaceDetector)
 
